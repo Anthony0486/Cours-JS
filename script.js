@@ -7,22 +7,28 @@
 // Afficher dans le dom (div id resultat) le résultat du calcul.
 // ou une erreur si les champs ne sont pas tous remplis
 
-const calculButton = document.getElementById("calculer");
+//TODO
+//Inputs
 const nomProduit = document.getElementById("nomProduit");
 const quantite = document.getElementById("quantite");
 const prix = document.getElementById("prixHt");
+//Button
+const calculButton = document.getElementById("calculer");
+//Result
 const resultat = document.querySelector("#resultat");
 let result=0;
+//Function
 calculButton.addEventListener("click", (evenement) => {
     evenement.preventDefault();
-    if(nomProduit.value =="")
+    if(nomProduit.value ==""){
         alert("Veuillez remplir les champs");
-        else if (quantite.value =="")
+    }else if (quantite.value ==""){
         alert("Veuillez remplir les champs");
-        else if (prix.value =="")
+    }else if (prix.value ==""){
         alert("Veuillez remplir les champs");
-        else 
+    }else{
     result = quantite.value*prix.value*1.2;
-    resultat.innerText = `Voici le prix :${result} €TTC`;    
+    resultat.innerText = `Voici le prix :${result} €TTC`; 
+    }   
 });
 
