@@ -1,5 +1,5 @@
 import './style.css'
-
+import "./test_imc"
 
 document.querySelector('#app').innerHTML = `
   <div>
