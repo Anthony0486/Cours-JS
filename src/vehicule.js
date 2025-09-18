@@ -22,6 +22,16 @@ plusRapide(vehicule){
     }else{
         return `Le vehicule ${this.nomVehicule} est le plus rapide`;
     }
+}
+
+// verif(param){
+//     if(param.constructor == "vehicule"){
+//         return "type véhicule";
+//     }
+//     if (typeof param =="number"){
+//         return "type nombre";
+//     }
+// }
 
 }
-}
+
