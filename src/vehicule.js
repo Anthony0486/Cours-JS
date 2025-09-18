@@ -17,10 +17,10 @@ boost(){
 
 plusRapide(vehicule){
     if (vehicule.vitesse > this.vitesse){
-        `Le vehicule ${vehicule.nomVehicule} est le plus rapide`;
+        return `Le vehicule ${vehicule.nomVehicule} est le plus rapide`;
 
     }else{
-        `Le vehicule ${this.nomVehicule} est le plus rapide`;
+        return `Le vehicule ${this.nomVehicule} est le plus rapide`;
     }
 
 }

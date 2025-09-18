@@ -9,3 +9,4 @@ console.log(vehicule1.boost());
 //BONUS---------------------
 
 console.log(vehicule1.plusRapide(vehicule2));
+
