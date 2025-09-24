@@ -26,19 +26,24 @@ const comptes = [];
 
 //écouteur événement sur le bouton créer un compte
 btCreate.addEventListener('click', () => {
+    const clean = DOMPurify.sanitize(nomCompte.value);
     try {
-        //test si le champs id_nom est remplis
-        if (nomCompte.value === "") {
+        //Test si la saisie est "propre"
+        if (clean == false) {
+            throw new Error(`Les caractères ne sont pas autorisés`);
+        };
+         //test si le champs id_nom est remplis
+        if (clean === "") {
             throw new Error(`Le champ nom est vide veuillez le remplir`);
-        }
+        };
         //test si le compte existe déja
-        if (tools.isCompteBancaireExist(comptes, nomCompte.value)) {
-            throw new Error(`Le compte ${nomCompte.value} existe déja`);
+        if (tools.isCompteBancaireExist(comptes, clean)) {
+            throw new Error(`Le compte ${clean} existe déja`);
         }
         //Ajout du compte bancaire au tableau (comptes)
-        comptes.push(new CompteBancaire(nomCompte.value));
+        comptes.push(new CompteBancaire(clean));
         //Afficher le message
-        message.innerText = `Le compte ${nomCompte.value} a été ajouté`;
+        message.innerText = `Le compte ${clean} a été ajouté`;
         tools.messageColorValid(message);
     } catch (error) {
         message.innerText = error.message;
@@ -56,26 +61,32 @@ btCreate.addEventListener('click', () => {
 
 //écouteur d'événement sur le bouton créditer
 btCrediter.addEventListener('click', () => {
+    const cleanCompte = DOMPurify.sanitize(compteOperation.value);
+    const cleanMontant = DOMPurify.sanitize(montantOperation.value);
     try {
+        //Test si la saisie est "propre"
+        if (cleanCompte == false || cleanMontant == false) {
+            throw new Error(`Les caractères ne sont pas autorisés`);
+        };
         //test si les 2 champs sont remplis
-        if (compteOperation.value === "" || montantOperation.value === "") {
+        if (cleanCompte === "" || cleanMontant === "") {
             throw new Error(`Veuillez renseigner les 2 champs nom et montant`);
         }
         //test si le montant n'est pas un nombre
-        if (isNaN(montantOperation.value)) {
-            throw new Error(`Le montant à créditer : ${montantOperation.value} n'est pas un nombre`);
+        if (isNaN(cleanMontant)) {
+            throw new Error(`Le montant à créditer : ${cleanMontant} n'est pas un nombre`);
         }
         //Test si le compte n'existe pas
-        if (!tools.isCompteBancaireExist(comptes, compteOperation.value)) {
-            throw new Error(`Le compte ${compteOperation.value} n'existe pas`);
+        if (!tools.isCompteBancaireExist(comptes, cleanCompte)) {
+            throw new Error(`Le compte ${cleanCompte} n'existe pas`);
         }
         //Opération credit du montant du compte
         //Récupérer le compte bancaire
-        const compte = tools.trouverCompteParNom(comptes, compteOperation.value);
+        const compte = tools.trouverCompteParNom(comptes, cleanCompte);
         //Opération de credit du montant
-        compte.credit(parseFloat(montantOperation.value));
+        compte.credit(parseFloat(cleanMontant));
         //Message de confirmation
-        message.innerText = `Le compte : ${compteOperation.value} à été crédité de : ${montantOperation.value} €, 
+        message.innerText = `Le compte : ${cleanCompte} à été crédité de : ${cleanMontant} €, 
         ${compte.afficherCompte()}`;
         tools.messageColorValid(message);
     } catch (error) {
@@ -92,26 +103,32 @@ btCrediter.addEventListener('click', () => {
 
 //écouteur d'événement sur le bouton retirer
 btRetirer.addEventListener('click', () => {
+    const cleanCompte = DOMPurify.sanitize(compteOperation.value);
+    const cleanMontant = DOMPurify.sanitize(montantOperation.value);
     try {
+        //Test si la saisie est "propre"
+        if (cleanCompte == false || cleanMontant == false) {
+            throw new Error(`Les caractères ne sont pas autorisés`);
+        };
         //test si les 2 champs sont remplis
-        if (compteOperation.value === "" || montantOperation.value === "") {
+        if (cleanCompte === "" || cleanMontant === "") {
             throw new Error(`Veuillez renseigner les 2 champs nom et montant`);
         }
         //test si le montant n'est pas un nombre
-        if (isNaN(montantOperation.value)) {
-            throw new Error(`Le montant à retirer : ${montantOperation.value} n'est pas un nombre`);
+        if (isNaN(cleanMontant)) {
+            throw new Error(`Le montant à retirer : ${cleanMontant} n'est pas un nombre`);
         }
         //Test si le compte n'existe pas
-        if (!tools.isCompteBancaireExist(comptes, compteOperation.value)) {
-            throw new Error(`Le compte ${compteOperation.value} n'existe pas`);
+        if (!tools.isCompteBancaireExist(comptes, cleanCompte)) {
+            throw new Error(`Le compte ${cleanCompte} n'existe pas`);
         }
         //Opération retrait du montant du compte
         //Récupérer le compte bancaire
-        const compte = tools.trouverCompteParNom(comptes, compteOperation.value);
+        const compte = tools.trouverCompteParNom(comptes, cleanCompte);
         //Opération de retrait du montant
-        compte.retrait(parseFloat(montantOperation.value));
+        compte.retrait(parseFloat(cleanMontant));
         //Message de confirmation
-        message.innerText = `Le compte : ${compteOperation.value} à été retirer de : ${montantOperation.value} €, 
+        message.innerText = `Le compte : ${cleanCompte} à été retirer de : ${cleanMontant} €, 
         ${compte.afficherCompte()}`;
         tools.messageColorValid(message);
     } catch (error) {
@@ -128,32 +145,39 @@ btRetirer.addEventListener('click', () => {
 
 //écouteur sur le bouton virement
 btVirement.addEventListener('click', () => {
+    const cleanSource = DOMPurify.sanitize(compteSource.value);
+    const cleanCible = DOMPurify.sanitize(compteCible.value);
+    const cleanMontant = DOMPurify.sanitize(montantVirement.value);
     try {
+        //Test si la saisie est "propre"
+        if (cleanSource == false || cleanCible == false || cleanMontant == false) {
+            throw new Error(`Les caractères ne sont pas autorisés`);
+        };
         //test si les champs ne sont remplis
-        if (compteSource.value === "" || compteCible.value === "" || montantVirement.value === "") {
+        if (cleanSource === "" || cleanCible === "" || cleanMontant === "") {
             throw new Error(`Veuillez renseigner les 3 champs compte cible, compte source et montant du virement`);
         }
         //test si me montant n'est pas un nombre
-        if (isNaN(montantVirement.value)) {
-            throw new Error(`Le montant à retirer : ${montantVirement.value} n'est pas un nombre`);
+        if (isNaN(cleanMontant)) {
+            throw new Error(`Le montant à retirer : ${cleanMontant} n'est pas un nombre`);
         }
         //test si le compte source n'existe pas
-        if (!tools.isCompteBancaireExist(comptes, compteSource.value)) {
-            throw new Error(`Le compte ${compteSource.value} n'existe pas`);
+        if (!tools.isCompteBancaireExist(comptes, cleanSource)) {
+            throw new Error(`Le compte ${cleanSource} n'existe pas`);
         }
         //test si me compte cible n'existe pas
-        if (!tools.isCompteBancaireExist(comptes, compteCible.value)) {
-            throw new Error(`Le compte ${compteCible.value} n'existe pas`);
+        if (!tools.isCompteBancaireExist(comptes, cleanCible)) {
+            throw new Error(`Le compte ${cleanCible} n'existe pas`);
         }
         //Opération de virement entre compte bancaire
         //Compte source
-        const source = tools.trouverCompteParNom(comptes, compteSource.value);
+        const source = tools.trouverCompteParNom(comptes, cleanSource);
         //Compte cible
-        const cible = tools.trouverCompteParNom(comptes, compteCible.value);
+        const cible = tools.trouverCompteParNom(comptes, cleanCible);
         //opération de virement
-        source.virement(parseFloat(montantVirement.value), cible);
+        source.virement(parseFloat(cleanMontant), cible);
         //Message de confirmation
-        message.innerText = `Le compte : ${source.nom} a viré la somme de : ${montantVirement.value} € à ${cible.nom}. 
+        message.innerText = `Le compte : ${source.nom} a viré la somme de : ${cleanMontant} € à ${cible.nom}. 
         ${source.afficherCompte()},  
         ${cible.afficherCompte()}
         `;
