@@ -1,37 +1,69 @@
 export default class CompteBancaire {
-    constructor (nom, solde) {
+
+    /**
+     * Constructeur de la classe CompteBancaire
+     * @param {string} nom 
+     * @param {float} solde default 0 
+     */
+    constructor(nom, solde = 0) {
         this.nom = nom;
         this.solde = solde;
     }
 
-consultation (){
-    console.log(`Titulaire : ${this.nom}, solde: ${this.solde}€`);
-}
+    //Méthodes de la classe
 
-crediter (montant) {
-    console.log(`Ajout de: ${(montant)}€ pour : ${this.nom}`);
-    return this.solde += montant;
-}
+    /**
+     * Méthode pour créditer d'un montant le compte
+     * @param {float} montant
+     * @return void
+     * @throws Error  
+     */
+    credit(montant) {
+        if (montant < 0) {
+            throw new Error(`Le montant ${montant} est négatif`);
+        }
+        if (isNaN(montant)) {
+            throw new Error(`Le montant : ${montant} n'est pas un nombre`);
+        }
+        this.solde += montant;
+    }
 
-debiter (montant){
-    if (montant < this.solde) {
-        console.log(`Retrait de : ${montant}€ pour : ${this.nom}`);
-        return this.solde -= montant;
-    } else {
-        throw new Error(`----->${this.nom}, retrait de ${montant}€ refusé avec solde : ${this.solde}`);
+    /**
+     * Méthode pour retirer un montant du compte
+     * @param {float} montant
+     * @return void
+     * @throws Error
+     */
+    retrait(montant) {
+        if (this.solde < montant) {
+            throw new Error(`Retrait impossible : Le solde du compte : ${this.nom} est inférieur à : ${montant}`);
+        }
+        if (montant < 0) {
+            throw new Error(`Le montant ${montant} est négatif`);
+        }
+        if (isNaN(montant)) {
+            throw new Error(`Le montant : ${montant} n'est pas un nombre`);
+        }
+        this.solde -= montant;
+    }
+
+    /**
+     * Méthode pour virer de l'argent du compte courant (this) à un autre compte (compte)
+     * @param {float} montant 
+     * @param {CompteBancaire} compte
+     * @return void
+     * @throws Error  
+     */
+    virement(montant, compte) {
+        this.retrait(montant);
+        compte.credit(montant);
+    }
+
+    /**
+     * Méthode pour afficher le solde du compte avec ces informations
+     * @return string 
+     */
+    afficherCompte() {
+        return `Titulaire : ${this.nom}, solde : ${this.solde} €`;
     }
 }
-
-virement (beneficiare, montant) {
-    if (montant > this.solde) {
-        throw new Error(`----->${this.nom}, virement de ${montant}€ refusé avec solde : ${this.solde}€`)
-    }if (montant <0){
-        throw new Error(`----->${this.nom}, virement de ${montant}€ car montant négatif`);
-    } else {
-        console.log(`Virement: ${montant}€ de : ${this.nom} pour : ${beneficiare.nom}`);
-    }
-    return this.solde -= montant;
-    }
-    
-}
-

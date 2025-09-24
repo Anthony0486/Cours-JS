@@ -1,2 +1,3 @@
 import './style.css'
-import './test_compteBancaire'
+import './logique_compteBancaire.js';
+import './purify.js'
