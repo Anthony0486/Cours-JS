@@ -9,7 +9,7 @@ consultation (){
 }
 
 crediter (montant) {
-    console.log(`Ajout de: ${montant}€ pour : ${this.nom}`);
+    console.log(`Ajout de: ${(montant)}€ pour : ${this.nom}`);
     return this.solde += montant;
 }
 
@@ -25,6 +25,8 @@ debiter (montant){
 virement (beneficiare, montant) {
     if (montant > this.solde) {
         throw new Error(`----->${this.nom}, virement de ${montant}€ refusé avec solde : ${this.solde}€`)
+    }if (montant <0){
+        throw new Error(`----->${this.nom}, virement de ${montant}€ car montant négatif`);
     } else {
         console.log(`Virement: ${montant}€ de : ${this.nom} pour : ${beneficiare.nom}`);
     }
@@ -32,3 +34,4 @@ virement (beneficiare, montant) {
     }
     
 }
+

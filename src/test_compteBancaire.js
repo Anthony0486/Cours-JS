@@ -9,7 +9,7 @@ const montant = document.getElementById("montant");
 const source = document.getElementById("source");
 const cible = document.getElementById("cible");
 const virement = document.getElementById("virement");
-
+const montantVirement = document.getElementById('montantVirement');
 const comptes = [
     new CompteBancaire ("Alex")
 ];
@@ -25,6 +25,7 @@ const comptes = [
 // } catch (error) {
 //     console.log(error.message);
 // };
+
 
 create.addEventListener("click", (e) =>{
     e.preventDefault();
@@ -55,9 +56,23 @@ debiter.addEventListener("click", (e) => {
         comptes[i].debiter(montant.value);
         comptes[i].consultation();
         }
-    message.innerText = (`${montant.value}€ ont été débités sur ${compte.value}`);
+    message.innerText = (`${montant.value}€ ont été débités sur ${parseInt(compte.value)}`);
     
     }
 });
+
+virement.addEventListener("click", (e) =>{
+    e.preventDefault();
+    for (let i=0; i< comptes.length; i++){
+    if (comptes[i].nom == cible.value){
+        comptes[i].virement(montantVirement.value);
+        comptes[i].consultation();
+        }
+    message.innerText = (`Virement: ${montantVirement.value}€ de : ${source.value} pour : ${cible.value}`);
+    
+    }
+
+})
+
 
 
