@@ -56,7 +56,7 @@ debiter.addEventListener("click", (e) => {
         comptes[i].debiter(montant.value);
         comptes[i].consultation();
         }
-    message.innerText = (`${montant.value}€ ont été débités sur ${parseInt(compte.value)}`);
+    message.innerText = (`${montant.value}€ ont été débités sur ${compte.value}`);
     
     }
 });
@@ -71,7 +71,6 @@ virement.addEventListener("click", (e) =>{
     message.innerText = (`Virement: ${montantVirement.value}€ de : ${source.value} pour : ${cible.value}`);
     
     }
-
 })
 
 
