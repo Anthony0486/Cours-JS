@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: https://api.openweathermap.org/data/2.5/weather?lon=1.44&lat=43.6&appid=2d7ceb7ce3052060f2f245acb782785c
+  url: https://api.openweathermap.org/data/2.5/weather?lon=1.44&lat=43.6&appid=2d7ceb7ce3052060f2f245acb782785c&units=metric&lang=fr&q=albi
   body: none
   auth: inherit
 }
@@ -14,6 +14,9 @@ params:query {
   lon: 1.44
   lat: 43.6
   appid: 2d7ceb7ce3052060f2f245acb782785c
+  units: metric
+  lang: fr
+  q: albi
 }
 
 settings {
